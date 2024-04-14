@@ -5,6 +5,6 @@ const blockchainHttp = require('../controllers/controllerBlockchain.js');
 routers.get('/data/image',blockchainHttp.getDataImage);
 
 // Record of data sensor
-// routers.get('/data/sensor');
+routers.get('/data/sensor',blockchainHttp.getDataSensor);
 
 module.exports = routers;
