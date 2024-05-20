@@ -5,6 +5,7 @@ require('fs');
 const {AES, enc} = require('crypto-js');
 
 const aesKey = process.env.AES_KEY;
+const address = process.env.ADDRESS;
 
 const getDataImage = async (req, res) =>{
     try {
@@ -29,7 +30,7 @@ const getDataSensor = async (req,res) =>{
 // Function Logic
 const getData = async (mimeType) =>{
     const nft = [];
-    const response = await fetch('https://explorer-api.shimmer.network/stardust/address/outputs/nft/shimmer-testnet/rms1qr4c7zzslga0xv7jhwdkhxctlxqmqz6txzgusr9egysudknzpqta5k88zzh',{method:'GET'});
+    const response = await fetch(`https://explorer-api.shimmer.network/stardust/address/outputs/nft/shimmer-testnet/${address}`,{method:'GET'});
     const responseJson = await response.json()
     const datas = await responseJson.outputs
     datas.forEach((data,index) =>{
@@ -37,7 +38,6 @@ const getData = async (mimeType) =>{
         const metaData = JSON.parse(hexToString(hexMetaData));
         if(mimeType === metaData.type){
             nft.push(metaData);
-            // metaData.id = index;
             metaData.uri = AES.decrypt(metaData.uri, aesKey).toString(enc.Utf8);
         }
     })
