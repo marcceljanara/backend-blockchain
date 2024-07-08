@@ -1,28 +1,34 @@
-import { Buffer } from 'buffer';
+/* eslint-disable import/extensions */
 import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import fs from 'fs';
-import http from 'http';
-import https from 'https';
 import dotenv from 'dotenv';
-import routers from './src/routes/router.js';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import db from './src/configs/database.js';
+import router from './src/routes/router.js';
+import Users from './src/models/user-models.js';
 
 dotenv.config();
 
-const api = express();
+const app = express();
+const initializeDatabase = async () => {
+  try {
+    await db.authenticate();
+    console.log('Database Connected...');
+    await Users.sync();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-api.use(bodyParser.json());
-api.use('/',cors(), routers);
+// Memanggil fungsi inisialisasi database
+initializeDatabase();
 
-api.use('/',cors(), (req,res) =>{
-    res.status(404);
-    res.send('404 Not Found');
-})
+app.set('view engine', 'ejs');
+app.set('views', 'src/views');
+app.use(cookieParser());
+app.use(cors({ origin: '*', credentials: true }));
+app.use(express.json());
 
+app.use(router);
 
-const PORT = process.env.PORT || 5000; 
-
-api.listen(PORT, () => { // Start the server
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.listen(5000, () => console.log('Server running at port 5000'));
