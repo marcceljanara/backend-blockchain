@@ -1,24 +1,25 @@
-const Buffer = require('buffer').Buffer;
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const fs = require('fs');
-const http = require('http');
-const https = require('https');
-require('dotenv').config();
+import { Buffer } from 'buffer';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
+import dotenv from 'dotenv';
+import routers from './src/routes/router.js';
+
+dotenv.config();
 
 const api = express();
 
-// Routes Blockchain
-const blockchainAppRoute = require('./src/routes/routerBlockchain.js');
-
 api.use(bodyParser.json());
-api.use('/',cors(), blockchainAppRoute);
+api.use('/',cors(), routers);
 
 api.use('/',cors(), (req,res) =>{
     res.status(404);
     res.send('404 Not Found');
 })
+
 
 const PORT = process.env.PORT || 5000; 
 

@@ -1,13 +1,16 @@
-const path = require('path');
-const moment = require('moment');
-require('dotenv').config();
-require('fs');
-const {AES, enc} = require('crypto-js');
+// import path from 'path';
+// import moment from 'moment';
+import dotenv from 'dotenv';
+// import fs from 'fs';
+import aes from 'crypto-js/aes.js';
+import utf8 from 'crypto-js/enc-utf8.js';
+
+dotenv.config();
 
 const aesKey = process.env.AES_KEY;
 const address = process.env.ADDRESS;
 
-const getDataImage = async (req, res) =>{
+export const getDataImage = async (req, res) =>{
     try {
         const data = await getData('image/jpeg');
         res.json(data);
@@ -17,7 +20,7 @@ const getDataImage = async (req, res) =>{
     }
 }
 
-const getDataSensor = async (req,res) =>{
+export const getDataSensor = async (req,res) =>{
     try {
         const data = await getData('text/csv');
         res.json(data);
@@ -38,7 +41,7 @@ const getData = async (mimeType) =>{
         const metaData = JSON.parse(hexToString(hexMetaData));
         if(mimeType === metaData.type){
             nft.push(metaData);
-            metaData.uri = AES.decrypt(metaData.uri, aesKey).toString(enc.Utf8);
+            metaData.uri = aes.decrypt(metaData.uri, aesKey).toString(utf8);
         }
     })
     return nft;  
@@ -48,5 +51,3 @@ function hexToString(hex) {
     const buffer = Buffer.from(hex, 'hex');
     return buffer.toString('utf-8');
 }
-
-module.exports = {getDataImage,getDataSensor};
