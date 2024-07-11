@@ -1,3 +1,4 @@
+/* eslint-disable eol-last */
 /* eslint-disable import/extensions */
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';

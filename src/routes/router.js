@@ -1,6 +1,7 @@
-import {getDataImage, getDataSensor} from '../controllers/controllerBlockchain.js'
 /* eslint-disable import/extensions */
 import express from 'express';
+import { getDataImage, getDataSensor } from '../controllers/controllerBlockchain.js';
+/* eslint-disable import/extensions */
 import {
   getUsers, Register, Login, Logout, changePassword,
 
@@ -16,11 +17,10 @@ router.post('/login', Login);
 router.delete('/logout', Logout);
 router.put('/password', verifyToken, changePassword);
 
-
-//Record of data Image
-router.get('/data/image',verifyToken,getDataImage);
+// Record of data Image
+router.get('/data/image', getDataImage);
 
 // Record of data sensor
-router.get('/data/sensor',verifyToken,getDataSensor);
+router.get('/data/sensor', getDataSensor);
 
 export default router;

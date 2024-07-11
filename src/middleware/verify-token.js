@@ -18,7 +18,6 @@ export const verifyToken = async (req, res, next) => {
   }
 };
 
-
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
@@ -30,5 +29,4 @@ export const authenticateToken = (req, res, next) => {
     req.userId = user.userId;
     next();
   });
-
 };
