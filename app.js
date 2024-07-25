@@ -26,8 +26,6 @@ const initializeDatabase = async () => {
 // Memanggil fungsi inisialisasi database
 initializeDatabase();
 
-app.set('view engine', 'ejs');
-app.set('views', 'src/views');
 app.use(cookieParser());
 app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
