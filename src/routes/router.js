@@ -7,6 +7,7 @@ import {
 
 } from '../controllers/users.js';
 import { authenticateToken, verifyToken } from '../middleware/verify-token.js';
+import { getDataByMonth, getDataWithinTimeframe } from '../controllers/mqttDataController.js';
 
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.get('/data/image', getDataImage);
 
 // Record of data sensor
 router.get('/data/sensor', getDataSensor);
+router.get('/data/:timeframe', getDataWithinTimeframe);
+router.get('/data/month/:month', getDataByMonth);
 
 export default router;
