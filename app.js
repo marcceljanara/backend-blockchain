@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import db from './src/configs/database.js';
 import router from './src/routes/router.js';
 import Users from './src/models/user-models.js';
+import SensorData from './src/models/sensor-data-models.js';
+import './mqttClient.js';
 
 dotenv.config();
 
@@ -15,6 +17,7 @@ const initializeDatabase = async () => {
     await db.authenticate();
     console.log('Database Connected...');
     await Users.sync();
+    await SensorData.sync();
   } catch (error) {
     console.error(error);
   }
