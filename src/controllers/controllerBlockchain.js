@@ -15,7 +15,7 @@ export const getDataImage = async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal Server Error' }); // Send an error response if fetching data fails
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -37,13 +37,13 @@ const getData = async (mimeType) => {
   const datas = await responseJson.outputs;
   datas.forEach((data) => {
     const hexMetaData = data.output.immutableFeatures[1].data.slice(2);
-    const transactionId = data.metadata.transactionId;
+    const { transactionId } = data.metadata;
     const metaData = JSON.parse(hexToString(hexMetaData));
     metaData.transactionId = transactionId;
     console.log(transactionId);
     if (mimeType === metaData.type) {
-        metaData.uri = aes.decrypt(metaData.uri, aesKey).toString(utf8);
-        nft.push(metaData);
+      metaData.uri = aes.decrypt(metaData.uri, aesKey).toString(utf8);
+      nft.push(metaData);
     }
   });
   return nft;
