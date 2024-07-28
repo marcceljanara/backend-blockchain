@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import { DataTypes } from 'sequelize';
 import db from '../configs/database.js';
 
@@ -6,8 +7,12 @@ const SensorData = db.define('SensorData', {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  gps: {
-    type: DataTypes.JSONB,
+  latitude: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
+  longitude: {
+    type: DataTypes.FLOAT,
     allowNull: true,
   },
   temperature: {
