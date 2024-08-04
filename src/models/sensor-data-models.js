@@ -27,6 +27,10 @@ const SensorData = db.define('SensorData', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  publisher: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   freezeTableName: true,
 });

@@ -55,11 +55,13 @@ client.on('message', async (topic, message) => {
         temperature: parseFloat(decryptAES(encryptedData.temperature)),
         humidity: parseFloat(decryptAES(encryptedData.humidity)),
         lux: parseInt(decryptAES(encryptedData.lux), 10),
+        publisher: decryptAES(encryptedData.publisher),
       };
 
       // Validasi data
       if (!data.timestamp || Number.isNaN(data.latitude) || Number.isNaN(data.longitude)
-       || Number.isNaN(data.temperature) || Number.isNaN(data.humidity) || Number.isNaN(data.lux)) {
+       || Number.isNaN(data.temperature) || Number.isNaN(data.humidity)
+       || Number.isNaN(data.lux) || !data.publisher) {
         console.error('Invalid data format after decryption:', data);
         return;
       }
