@@ -39,6 +39,7 @@ const getDataWithinTimeframe = async (req, res) => {
 
   try {
     const data = await SensorData.findAll({
+      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'publisher'], // Select specific columns
       where: {
         timestamp: {
           [Op.gte]: timeCondition,
@@ -64,6 +65,7 @@ const getDataByMonth = async (req, res) => {
 
   try {
     const data = await SensorData.findAll({
+      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'publisher'], // Select specific columns
       where: {
         timestamp: {
           [Op.between]: [
@@ -113,6 +115,7 @@ const downloadDataAsCSV = async (req, res) => {
 
   try {
     const data = await SensorData.findAll({
+      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'publisher'], // Select specific columns
       where: {
         timestamp: {
           [Op.gte]: timeCondition,
