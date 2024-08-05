@@ -39,7 +39,7 @@ const getDataWithinTimeframe = async (req, res) => {
 
   try {
     const data = await SensorData.findAll({
-      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'publisher'], // Select specific columns
+      attributes: ['timestamp', 'latitude', 'longitude', 'lux', 'temperature', 'humidity', 'publisher'], // Select specific columns
       where: {
         timestamp: {
           [Op.gte]: timeCondition,
