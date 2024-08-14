@@ -21,7 +21,7 @@ Follow the steps below to use PgAdmin:
 ## How to Run
 To use this application, use the following command:
 ```bash
-git clone https://github.com/marcceljanara/Healthcare-Knowledge-API.git
+git clone https://github.com/marcceljanara/backend-blockchain.git
 ```
 then,
 ```bash
@@ -41,7 +41,7 @@ To serve the application in production mode, use:
 npm run serve
 ```
 ### How to Access API Endpoints
-To access the API endpoint documentation, please open this link in a browser.
+To access the API endpoint, please open this link in a browser or postman.
 ```bash
 http://localhost:5000/
 ```
