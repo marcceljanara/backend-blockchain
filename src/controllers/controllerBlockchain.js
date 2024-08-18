@@ -1,10 +1,12 @@
 /* eslint-disable no-use-before-define */
+/* eslint-disable import/extensions */
 import dotenv from 'dotenv';
-import CryptoJS from 'crypto-js';
+import aes from 'crypto-js/aes.js';
+import utf8 from 'crypto-js/enc-utf8.js';
 
 dotenv.config();
 
-const aesKey = CryptoJS.enc.Utf8.parse(process.env.AES_KEY); // Key must be a WordArray
+const aesKey = process.env.AES_KEY;
 const address = process.env.ADDRESS;
 
 export const getDataImage = async (req, res) => {
@@ -23,7 +25,7 @@ export const getDataModels = async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' }); // Send an error response if fetching data fails
   }
 };
 
@@ -38,24 +40,9 @@ const getData = async (mimeType) => {
     const { transactionId } = data.metadata;
     const metaData = JSON.parse(hexToString(hexMetaData));
     metaData.transactionId = transactionId;
+    console.log(transactionId);
     if (mimeType === metaData.type) {
-      // Decrypt URI
-      const encryptedText = metaData.uri;
-      const encryptedBytes = CryptoJS.enc.Base64.parse(encryptedText);
-
-      // Extract IV (first 16 bytes) and encrypted data
-      const iv = CryptoJS.lib.WordArray.create(encryptedBytes.words.slice(0, 4)); // 16 bytes
-      const encryptedData = CryptoJS.lib.WordArray.create(encryptedBytes.words.slice(4));
-
-      // Decrypt
-      const decryptedBytes = CryptoJS.AES.decrypt({ ciphertext: encryptedData }, aesKey, {
-        iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7,
-      });
-
-      // Convert decrypted bytes to string
-      metaData.uri = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      metaData.uri = aes.decrypt(metaData.uri, aesKey).toString(utf8);
       nft.push(metaData);
     }
   });
