@@ -7,7 +7,9 @@ import {
 
 } from '../controllers/users.js';
 import { authenticateToken, verifyToken } from '../middleware/verify-token.js';
-import { getDataByMonth, getDataWithinTimeframe, downloadDataAsCSV } from '../controllers/mqttDataController.js';
+import {
+  getDataByMonth, getDataWithinTimeframe, downloadDataAsCSV, getDataBattery,
+} from '../controllers/mqttDataController.js';
 
 const router = express.Router();
 
@@ -19,14 +21,17 @@ router.delete('/logout', Logout);
 router.put('/password', verifyToken, changePassword);
 
 // Record of data Image
-router.get('/data/image', getDataImage);
+router.get('/data/image', authenticateToken, getDataImage);
 
 // Record of data Models
-router.get('/data/models', getDataModels);
+router.get('/data/models', authenticateToken, getDataModels);
 
 // Record of data sensor
-router.get('/data/:timeframe', getDataWithinTimeframe);
-router.get('/data/month/:month', getDataByMonth);
-router.get('/data/download/:timeframe', downloadDataAsCSV);
+router.get('/data/:timeframe', authenticateToken, getDataWithinTimeframe);
+router.get('/data/month/:month', authenticateToken, getDataByMonth);
+router.get('/data/download/:timeframe', authenticateToken, downloadDataAsCSV);
+
+// record of data battery
+router.get('/battery', authenticateToken, getDataBattery);
 
 export default router;

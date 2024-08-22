@@ -27,8 +27,16 @@ const SensorData = db.define('SensorData', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  publisher: {
-    type: DataTypes.STRING,
+  battery_soc: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  battery_voltage: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  battery_current: {
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
 }, {

@@ -39,7 +39,7 @@ const getDataWithinTimeframe = async (req, res) => {
 
   try {
     const data = await SensorData.findAll({
-      attributes: ['timestamp', 'latitude', 'longitude', 'lux', 'temperature', 'humidity', 'publisher'], // Select specific columns
+      attributes: ['timestamp', 'latitude', 'longitude', 'lux', 'temperature', 'humidity'], // Select specific columns
       where: {
         timestamp: {
           [Op.gte]: timeCondition,
@@ -65,7 +65,7 @@ const getDataByMonth = async (req, res) => {
 
   try {
     const data = await SensorData.findAll({
-      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'lux', 'publisher'], // Select specific columns
+      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'lux'], // Select specific columns
       where: {
         timestamp: {
           [Op.between]: [
@@ -115,7 +115,7 @@ const downloadDataAsCSV = async (req, res) => {
 
   try {
     const data = await SensorData.findAll({
-      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'lux', 'publisher'], // Select specific columns
+      attributes: ['timestamp', 'latitude', 'longitude', 'temperature', 'humidity', 'lux'], // Select specific columns
       where: {
         timestamp: {
           [Op.gte]: timeCondition,
@@ -138,4 +138,30 @@ const downloadDataAsCSV = async (req, res) => {
   }
 };
 
-export { getDataWithinTimeframe, getDataByMonth, downloadDataAsCSV };
+const getDataBattery = async (req, res) => {
+  try {
+    const data = await SensorData.findAll({
+      attributes: ['battery_soc', 'battery_voltage', 'battery_current'],
+      order: [
+        ['timestamp', 'DESC'], // Mengurutkan berdasarkan waktu terbaru
+      ],
+      limit: 1, // Membatasi hasil hanya satu baris data
+    });
+
+    // Modifikasi hasil menjadi camelCase
+    const formattedData = data.map(item => ({
+      batterySoc: item.battery_soc,
+      batteryVoltage: item.battery_voltage,
+      batteryCurrent: item.battery_current,
+    }));
+
+    res.json(formattedData); // Mengirimkan data sebagai respons
+  } catch (error) {
+    console.error(error); // Menangani kesalahan jika terjadi
+    res.status(500).json({ error: 'An error occurred' });
+  }
+};
+
+export {
+  getDataWithinTimeframe, getDataByMonth, downloadDataAsCSV, getDataBattery,
+};
