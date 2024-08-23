@@ -21,15 +21,15 @@ router.delete('/logout', Logout);
 router.put('/password', verifyToken, changePassword);
 
 // Record of data Image
-router.get('/data/image', authenticateToken, getDataImage);
+router.get('/data/image', getDataImage);
 
 // Record of data Models
-router.get('/data/models', authenticateToken, getDataModels);
+router.get('/data/models', getDataModels);
 
 // Record of data sensor
-router.get('/data/:timeframe', authenticateToken, getDataWithinTimeframe);
-router.get('/data/month/:month', authenticateToken, getDataByMonth);
-router.get('/data/download/:timeframe', authenticateToken, downloadDataAsCSV);
+router.get('/data/:timeframe', getDataWithinTimeframe);
+router.get('/data/month/:month', getDataByMonth);
+router.get('/data/download/:timeframe', downloadDataAsCSV);
 
 // record of data battery
 router.get('/battery', authenticateToken, getDataBattery);
